@@ -1,0 +1,8 @@
+# hidden/useless files
+.directory
+
+# JetBrains
+.idea
+
+# Node
+node_modules
