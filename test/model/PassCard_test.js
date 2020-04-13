@@ -9,15 +9,15 @@ require('../bootstrap');
 const {assert} = require('chai');
 
 // Module to test
-PPMModel = require("../../lib/ppm_bridge/model/PPMModel");
+PassCard = require("../../lib/ppm_bridge/model/PassCard");
 
-describe("PPMModel", function () {
+describe("PassCard", function () {
     it("should return its name", function () {
         let card_name = "Jack"
-        let m = new PPMModel.PPMModel({
+        let pc = new PassCard.PassCard({
             name: card_name
         });
-        assert.strictEqual(m.get("name"), card_name)
+        assert.strictEqual(pc.get("name"), card_name)
     });
 });
 
