@@ -9,9 +9,15 @@ define(['backbone', 'underscore', 'model/PPMModel'], function (Backbone, _, PPMM
     class PassCard extends PPMModel {
         url = "/passcard"
         defaults = {
+            id: null,
+            parent_id: null,
             name: null,
+            collection: null,
             identifier: null,
-            payload: ""
+            owner: null,
+            created: null,
+            modified: null,
+            attr_count: 0
         };
 
         validate(attrs, options) {
@@ -28,14 +34,9 @@ define(['backbone', 'underscore', 'model/PPMModel'], function (Backbone, _, PPMM
 
             return resp
         }
+
     }
 
-    /**
-     * Export for Node
-     */
-    if (typeof exports !== 'undefined') {
-        exports.PassCard = PassCard;
-    }
 
     return PassCard;
 });

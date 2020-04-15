@@ -5,9 +5,7 @@
  * License: MIT
  */
 
-
 /*
-Backbone = require("backbone")
 Backbone.sync = function (method, model, options) {
 
     options.host = "http://localhost:9999/ppm"
@@ -24,23 +22,22 @@ Backbone.sync = function (method, model, options) {
 
 define(['model/PassCard'], function (PassCard) {
     describe("PassCard", function () {
-        it("should return its name", function () {
-            let card_name = "Jack"
-            let pc = new PassCard({
-                name: card_name
-            });
-            assert.strictEqual(pc.get("name"), card_name)
-        });
-
-        it("should fetch values", function () {
-            let id = "a0f987a4-c257-4010-a603-904105af5d6c"
-            let name = "PPM-1"
-            let pc = new PassCard({
-                id: id,
-                name: name
-            });
-            pc.fetch()
-            console.log(pc.toJSON())
+        it("should fetch values by id", function () {
+            let id = "a88d8f1d-7dd2-435b-8236-3df166e63384"
+            let pc = new PassCard({id: id});
+            pc.fetch({
+                validate: true,
+                success: function (model, response, options) {
+                    console.log(model.toJSON())
+                    assert.equal(id, model.get("id"));
+                    assert.isNotEmpty(model.get("name"));
+                    assert.isNotEmpty(model.get("collection"));
+                    assert.isNotEmpty(model.get("owner"));
+                    assert.isNotEmpty(model.get("created"));
+                    assert.isNotEmpty(model.get("modified"));
+                }
+            })
+            //console.log(pc.toJSON())
         });
     });
 });

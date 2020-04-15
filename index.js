@@ -5,4 +5,3 @@
  * License: MIT
  */
 
-module.exports = require('./lib/ppm_bridge');
