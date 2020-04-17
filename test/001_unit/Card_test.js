@@ -5,15 +5,17 @@
  * License: MIT
  */
 
-define(['model/PassCard'], function (PassCard) {
-    describe("PassCard", function () {
+define(['model/Card'], function (Card) {
+    describe("Card", function () {
+
         it("should return its name", function () {
             let card_name = "Jack"
-            let pc = new PassCard({
+            let pc = new Card({
                 name: card_name
             });
             assert.strictEqual(pc.get("name"), card_name)
         });
+
     });
 });
 

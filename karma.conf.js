@@ -17,10 +17,13 @@ module.exports = function (config) {
             {pattern: 'node_modules/backbone/backbone.js', included: false, watched: false},
             {pattern: 'node_modules/jquery/dist/jquery.js', included: false, watched: false},
             {pattern: 'node_modules/underscore/underscore.js', included: false, watched: false},
+            {pattern: 'node_modules/bluebird/js/browser/bluebird.js', included: false, watched: false},
             /* Application modules */
             {pattern: 'src/**/*.js', included: false},
             /* Test modules */
-            {pattern: 'test/**/*test.js', included: false},
+            {pattern: 'test/test_helper.js', included: false},
+            // {pattern: 'test/001_unit/**/*_test.js', included: false},
+            {pattern: 'test/002_functional/**/*_test.js', included: false},
             /* Karma bootstrap */
             'karma_bootstrap.js',
         ],
@@ -80,9 +83,23 @@ module.exports = function (config) {
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false,
 
+        // How long will Karma wait for a message from a browser before disconnecting from it (in ms).
+        browserNoActivityTimeout: 30 * 60 * 1000,
+
+
         client: {
-            runInParent: true,
-            clearContext: false,
+            // runInParent: true,
+            //clearContext: false,
+            mocha: {
+                // change Karma's debug.html to the mocha web reporter
+                reporter: 'html',
+
+                // Run only tests matching the pattern
+                // grep: '<pattern>', // passed directly to mocha
+
+                //timeout for single test
+                timeout: 5000,
+            }
         },
 
         // Concurrency level
@@ -90,3 +107,4 @@ module.exports = function (config) {
         concurrency: Infinity
     })
 }
+
