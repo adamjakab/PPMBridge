@@ -8,7 +8,8 @@ module.exports = function (config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['requirejs', 'mocha', 'chai'],
+        //frameworks: ['requirejs', 'mocha', 'chai'],
+        frameworks: ['requirejs', 'jasmine'],
 
 
         // list of files / patterns to load in the browser
@@ -99,6 +100,11 @@ module.exports = function (config) {
 
                 //timeout for single test
                 timeout: 5000,
+            },
+            jasmine: {
+                timeoutInterval: 5000,
+                random: false,
+
             }
         },
 

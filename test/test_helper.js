@@ -7,31 +7,47 @@
 
 define(['underscore', 'jquery', 'bluebird'], function (_, $, Promise) {
 
-    let truncate_db_tables = function (dbs) {
-        dbs = _.isArray(dbs) ? dbs : [dbs];
+    let feed_db_tables = function (pasture) {
         return new Promise(function (resolve, reject) {
+            pasture = _.isArray(pasture) ? pasture : [pasture];
             let url = "/ppm/maintenance";
-            let data = {"operation": "truncate", "table": dbs};
-            console.debug("Test maintenance(" + url + "): " + JSON.stringify(data));
+            let data = {"operation": "feed", "pasture": pasture};
+            console.debug("Test maintenance feed(" + url + "): " + JSON.stringify(data));
             $.ajax({
                 url: url,
                 method: "POST",
                 cache: false,
                 contentType: "application/json",
                 dataType: "json",
-                data: JSON.stringify(data)
-            }).done(function () {
-                // console.log("AJAX done")
-                resolve()
-            }).fail(function () {
-                // console.log("AJAX fail")
-                reject()
+                data: JSON.stringify(data),
+                success: resolve,
+                error: reject
+            });
+        });
+    }
+
+    let truncate_db_tables = function (dbs) {
+        return new Promise(function (resolve, reject) {
+            dbs = _.isArray(dbs) ? dbs : [dbs];
+            let url = "/ppm/maintenance";
+            let data = {"operation": "truncate", "table": dbs};
+            console.debug("Test maintenance truncate(" + url + "): " + JSON.stringify(data));
+            $.ajax({
+                url: url,
+                method: "POST",
+                cache: false,
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: resolve,
+                error: reject
             });
         });
     }
 
     return {
         truncate_db_tables: truncate_db_tables,
+        feed_db_tables: feed_db_tables,
     }
 });
 
