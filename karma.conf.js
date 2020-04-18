@@ -104,7 +104,7 @@ module.exports = function (config) {
             jasmine: {
                 timeoutInterval: 5000,
                 random: false,
-
+                failFast: true,
             }
         },
 

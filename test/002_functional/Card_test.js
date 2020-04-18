@@ -14,7 +14,7 @@ define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMB
             beforeEach(function () {
                 return TestHelper.truncate_db_tables(["cards"]).then(function () {
                     // console.log("tables cleared");
-                });
+                })
             });
 
             it("should return error on not found", function () {
@@ -93,7 +93,7 @@ define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMB
             });
 
 
-            it("should delete", function () {
+            it("should delete item", function () {
                 return new Promise(function (resolve) {
                     let expected = {
                         id: "a88d8f1d-7dd2-435b-8236-3df166e63384",
@@ -110,35 +110,41 @@ define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMB
 
                         card.on("sync", function (model, response, options) {
                             expect(response.error).toBeFalse("Database operation error: " + response.message);
-                            console.log("destroyed")
-                            resolve()
                         });
-                        //card.on("destroy", function (model, collection, options) {
-                        card.destroy({wait: true});
+                        //card.on("destroy", function (model, collection, options) {});
+                        return card.destroy({wait: true});
+                    }).then(function () {
+                        // console.log("card destroyed")
+                        return TestHelper.get_db_tables(["cards"]);
+                    }).then(function (data) {
+                        expect(data["response"]["data"]["cards"].length).toEqual(0)
+                        resolve()
                     });
                 });
             });
 
-            // it("should update", function () {
-            //     let card_data = {
-            //         name: "card 16",
-            //         collection: "password",
-            //     }
-            //     let card = new Card(card_data);
-            //
-            //     card.once("sync", function (model, options) {
-            //         assert.isFalse(model.isNew(), "Card was not created!")
-            //         //now we have a new item stored in the db
-            //         card.set({identifier: "site\.com"});
-            //         card.once("sync", function (model, options) {
-            //             //now we have the item updated
-            //             assert.isFalse(model.hasChanged(), "Card was not updated!")
-            //             done()
-            //         });
-            //         card.save();
-            //     });
-            //     card.save();
-            // });
+            it("should update item", function () {
+                return new Promise(function (resolve) {
+                    let identifier_name = "site\.com"
+                    let card_data = {
+                        name: "card 16",
+                        collection: "password",
+                    }
+                    let card = new Card(card_data);
+                    card.save().then(function () {
+                        //now we have the card stored in the db
+                        card.set({identifier: identifier_name});
+                        return card.save()
+                    }).then(function () {
+                        expect(card.get("identifier")).toEqual(identifier_name);
+                        return TestHelper.get_db_tables(["cards"]);
+                    }).then(function (data) {
+                        let db_card = _.first(data["response"]["data"]["cards"])
+                        expect(db_card["identifier"]).toEqual(identifier_name);
+                        resolve()
+                    });
+                });
+            });
 
 
         });
