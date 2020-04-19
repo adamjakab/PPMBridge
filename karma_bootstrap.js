@@ -6,9 +6,6 @@
 
 let dependencies = [];
 
-// Inject the main application
-// dependencies.push("PPMBridge")
-
 // List test modules
 if (Object.keys(window.__karma__["files"]).length > 0) {
     let TEST_REGEXP = /_(spec|test)\.js$/i
@@ -35,6 +32,7 @@ require.config({
         jquery: '../node_modules/jquery/dist/jquery',
         underscore: '../node_modules/underscore/underscore',
         bluebird: '../node_modules/bluebird/js/browser/bluebird',
+        uuidv4: '../node_modules/uuid/dist/umd/uuidv4.min',
     },
 
     // load all dependencies
@@ -56,7 +54,6 @@ require(['jquery', 'PPMBridge'], function ($, PPMBridge) {
     console.log("Ready...")
     $(document).ready(function () {
         PPMBridge.setOptions(ppm_bridge_options)
-        //ppm_bridge = new PPMBridge.PPMBridge(ppm_bridge_options);
         //window.__karma__.start.apply(this, arguments)
     });
 });

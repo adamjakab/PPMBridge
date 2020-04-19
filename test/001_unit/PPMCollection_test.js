@@ -5,11 +5,12 @@
  * License: MIT
  */
 
-define(['collection/PPMCollection'], function (PPMCollection) {
+define(['underscore', 'collection/PPMCollection'], function (_, PPMCollection) {
     describe("PPMCollection", function () {
 
-        it("should work", function () {
-            assert.isTrue(true);
+        it("should initialize", function () {
+            let collection = new PPMCollection()
+            expect(collection).toBeInstanceOf(PPMCollection)
         })
 
     });

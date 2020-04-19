@@ -13,14 +13,26 @@ define(['underscore', 'backbone'], function (_, Backbone) {
             super();
             Backbone.Model.apply(this, arguments);
 
+            /**
+             * The server returns the data of the created/updated model which is mapped to the model making it
+             * result as a dirty model (model that needs saving)
+             * The altered attributes are:
+             * Create: (id, created, modified)
+             * Modify: (modified)
+             */
             this.on("sync", function (model, response, options) {
                 if (_.has(options, "backbone_operation")) {
                     if (_.has(options["backbone_operation"], "method")) {
-                        // The "create" operation updates the model with new values(id,timestamps) from the server
-                        // but we consider the model "clean" (unchanged respect to the server)
                         if (options.backbone_operation.method === "create") {
                             model.changed = {};
-                            model._previousAttributes = {};
+                            model._previousAttributes = _.clone(model.attributes);
+                            // console.debug("Model synced after: " + JSON.stringify(options.backbone_operation))
+                            // console.debug("Model synced: " + JSON.stringify(model))
+                        } else if (options.backbone_operation.method === "update") {
+                            if (_.keys(model.changed).length === 1 && _.contains(_.keys(model.changed), "modified")) {
+                                model.changed = {};
+                                model._previousAttributes = _.clone(model.attributes);
+                            }
                         }
                     }
                 }

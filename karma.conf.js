@@ -19,11 +19,12 @@ module.exports = function (config) {
             {pattern: 'node_modules/jquery/dist/jquery.js', included: false, watched: false},
             {pattern: 'node_modules/underscore/underscore.js', included: false, watched: false},
             {pattern: 'node_modules/bluebird/js/browser/bluebird.js', included: false, watched: false},
+            {pattern: 'node_modules/uuid/dist/umd/uuidv4.min.js', included: false, watched: false},
             /* Application modules */
             {pattern: 'src/**/*.js', included: false},
             /* Test modules */
             {pattern: 'test/test_helper.js', included: false},
-            // {pattern: 'test/001_unit/**/*_test.js', included: false},
+            {pattern: 'test/001_unit/**/*_test.js', included: false},
             {pattern: 'test/002_functional/**/*_test.js', included: false},
             /* Karma bootstrap */
             'karma_bootstrap.js',
@@ -82,7 +83,7 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
+        singleRun: true,
 
         // How long will Karma wait for a message from a browser before disconnecting from it (in ms).
         browserNoActivityTimeout: 30 * 60 * 1000,

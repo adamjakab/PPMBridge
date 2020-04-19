@@ -7,19 +7,25 @@
 
 define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMBridge', 'bluebird'],
     function (_, TestHelper, Deck, Card, PPMBridge, Promise) {
+        let JasmineOriginalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
         let _PPMUSER_ = PPMBridge.getOption("username");
 
         describe("Card", function () {
 
             beforeEach(function () {
+                jasmine.DEFAULT_TIMEOUT_INTERVAL = 10 * 1000;
                 return TestHelper.truncate_db_tables(["cards"]).then(function () {
                     // console.log("tables cleared");
                 })
             });
 
+            afterEach(function () {
+                jasmine.DEFAULT_TIMEOUT_INTERVAL = JasmineOriginalTimeout;
+            });
+
             it("should return error on not found", function () {
                 return new Promise(function (resolve) {
-                    let id = "this-id-does-not-exist"
+                    let id = TestHelper.uuidv4()
                     let card = new Card({id: id});
                     card.fetch({
                         success: function (model, response, options) {
@@ -33,11 +39,14 @@ define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMB
             it("should fetch card by id", function () {
                 return new Promise(function (resolve) {
                     let expected = {
-                        id: "a88d8f1d-7dd2-435b-8236-3df166e63384",
+                        id: TestHelper.uuidv4(),
                         name: "Card-128",
                         collection: "note",
                         owner: _PPMUSER_,
                     }
+
+                    console.log("CD: ", expected)
+
                     let pasture = [
                         {table: "cards", data: [expected]}
                     ];
@@ -56,7 +65,7 @@ define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMB
 
                         return card.fetch({validate: true});
 
-                    }).then(function (response) {
+                    }).then(function () {
                         resolve()
                     });
                 });
@@ -96,7 +105,7 @@ define(['underscore', 'test/test_helper', 'collection/Deck', 'model/Card', 'PPMB
             it("should delete item", function () {
                 return new Promise(function (resolve) {
                     let expected = {
-                        id: "a88d8f1d-7dd2-435b-8236-3df166e63384",
+                        id: TestHelper.uuidv4(),
                         name: "Card-128",
                         collection: "note",
                         owner: _PPMUSER_,

@@ -5,7 +5,7 @@
  * License: MIT
  */
 
-define(['underscore', 'jquery', 'bluebird'], function (_, $, Promise) {
+define(['underscore', 'jquery', 'bluebird', 'uuidv4'], function (_, $, Promise, uuidv4) {
 
     let get_db_tables = function (dbs) {
         return new Promise(function (resolve, reject) {
@@ -68,6 +68,7 @@ define(['underscore', 'jquery', 'bluebird'], function (_, $, Promise) {
         get_db_tables: get_db_tables,
         truncate_db_tables: truncate_db_tables,
         feed_db_tables: feed_db_tables,
+        uuidv4: uuidv4,
     }
 });
 
